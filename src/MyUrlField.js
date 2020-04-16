@@ -1,4 +1,30 @@
 import React from "react";
+import LaunchIcon from "@material-ui/icons/Launch";
+
+import styled from "styled-components";
+
+const StyledLink = styled.a`
+  text-decoration: none;
+`;
+
+const StyledLaunchIcon = styled(LaunchIcon)`
+  width: 0.5em;
+  padding-left: 2px;
+`;
+
+const MyUrlField = ({ record = {}, source }) => {
+  return (
+    <StyledLink href={record[source]}>
+      {record[source]}
+      <StyledLaunchIcon />
+    </StyledLink>
+  );
+};
+
+export default MyUrlField;
+
+/*
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import LaunchIcon from "@material-ui/icons/Launch";
 
@@ -23,3 +49,4 @@ const MyUrlField = ({ record = {}, source }) => {
 };
 
 export default MyUrlField;
+*/
