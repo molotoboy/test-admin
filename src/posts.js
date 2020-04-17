@@ -1,6 +1,7 @@
 import React from "react";
 import {
   List,
+  SimpleList,
   Datagrid,
   TextField,
   ReferenceField,
@@ -13,6 +14,33 @@ import {
   Create,
   Filter,
 } from "react-admin";
+import { useMediaQuery } from "@material-ui/core";
+
+export const PostList = (props) => {
+  const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  return (
+    <List filters={<PostFilter />} {...props}>
+      {isSmall ? (
+        <SimpleList
+          primaryText={(record) => record.title}
+          secondaryText={(record) => `${record.view} views`}
+          tetriaryText={(record) =>
+            new Date(record.published_at).toLocaleDateString()
+          }
+        />
+      ) : (
+        <Datagrid>
+          <TextField source="id" />
+          <ReferenceField source="userId" reference="users">
+            <TextField source="name" />
+          </ReferenceField>
+          <TextField source="title" />
+          <EditButton />
+        </Datagrid>
+      )}
+    </List>
+  );
+};
 
 const PostFilter = (props) => (
   <Filter {...props}>
@@ -21,19 +49,6 @@ const PostFilter = (props) => (
       <SelectInput optionText="name" />
     </ReferenceInput>
   </Filter>
-);
-
-export const PostList = (props) => (
-  <List filters={<PostFilter />} {...props}>
-    <Datagrid>
-      <TextField source="id" />
-      <ReferenceField source="userId" reference="users">
-        <TextField source="name" />
-      </ReferenceField>
-      <TextField source="title" />
-      <EditButton />
-    </Datagrid>
-  </List>
 );
 
 const PostTitle = ({ record }) => {
